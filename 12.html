@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ការប្រឡង៖ ដោះស្រាយវិសមីការប្រភាគ</title>
+    
+    <!-- កំណត់ Configuration ឱ្យ MathJax ស្គាល់សញ្ញា $...$ -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['[', ']']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Khmer OS Battambang', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            position: relative;
+        }
+        
+        /* Watermark */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 5vw;
+            color: #000;
+            opacity: 0.06;
+            z-index: 9999;
+            pointer-events: none;
+            white-space: nowrap;
+            user-select: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+        h2, h3 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .subtitle {
+            text-align: center;
+            color: #e67e22;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            width: 80%;
+            max-width: 350px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #3498db;
+        }
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: inherit;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Exam Screen */
+        #exam-screen, #result-screen {
+            display: none;
+        }
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            background: #ecf0f1;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #2c3e50;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid #3498db;
+        }
+        .page-group {
+            display: none;
+        }
+        .page-group.active {
+            display: block;
+        }
+        .question-card {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+        .question-card:hover {
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .question-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 600px) {
+            .options-list { grid-template-columns: 1fr; }
+        }
+        .options-list label {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #dcdde1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .options-list label:hover {
+            background: #f1f2f6;
+            border-color: #3498db;
+        }
+        .options-list input {
+            margin-right: 15px;
+            transform: scale(1.3);
+            accent-color: #3498db;
+        }
+        
+        /* Pagination Controls */
+        .pagination-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+        }
+        .page-indicator {
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+
+        /* Result Screen */
+        .result-summary {
+            text-align: center;
+            padding: 30px;
+            background: #f0f8ff;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #d6eaf8;
+        }
+        .score-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2980b9;
+            margin: 15px 0;
+        }
+        .grade-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .review-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .correct-bg { border-left: 5px solid #2ecc71; }
+        .wrong-bg { border-left: 5px solid #e74c3c; }
+        .unanswered-bg { border-left: 5px solid #f1c40f; }
+        
+        .ans-row { margin-top: 15px; font-size: 16px; line-height: 1.6;}
+        .solution-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px dashed #7f8c8d;
+            border-radius: 8px;
+            color: #2c3e50;
+            overflow-x: auto;
+        }
+        .hidden-solution-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px dashed #ffeeba;
+            border-radius: 8px;
+            color: #856404;
+        }
+        .motivational-msg {
+            font-size: 18px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Watermark លោកគ្រូ -->
+<div class="watermark">រៀបចំដោយលោកគ្រូ រស់ មករា</div>
+
+<div class="container" id="start-screen">
+    <h2>ប្រឡងវាស់ស្ទង់សមត្ថភាពគណិតវិទ្យា</h2>
+    <div class="subtitle">ប្រធានបទ៖ ដោះស្រាយវិសមីការប្រភាគ</div>
+    <p style="text-align: center; color: #7f8c8d; font-size: 1.1em;">
+        ចំនួនលំហាត់៖ ២០ គ្រាប់ (ចែកជា ៤ ទំព័រ) | ឆ្លើយត្រូវ៖ +៥ ពិន្ទុ | ឆ្លើយខុស៖ -២ ពិន្ទុ<br>
+        <small style="color: #e74c3c;">*សម្គាល់៖ ប្រសិនបើអ្នកមិនជ្រើសរើសចម្លើយ មិនត្រូវបានកាត់ពិន្ទុឡើយ (០ ពិន្ទុ)។</small>
+    </p>
+    <div class="input-group" style="margin-top: 30px;">
+        <input type="text" id="student-name" placeholder="សូមបញ្ចូលឈ្មោះរបស់អ្នកនៅទីនេះ..." required>
+    </div>
+    <div class="input-group">
+        <button onclick="startExam()">ចាប់ផ្តើមប្រឡង 🚀</button>
+    </div>
+</div>
+
+<div class="container" id="exam-screen">
+    <div class="header-info">
+        <div>បេក្ខជន៖ <span id="display-name" style="color: #e67e22;"></span></div>
+        <div>ម៉ោង៖ <span id="timer" style="color: #e74c3c;">00:00</span></div>
+    </div>
+    
+    <div id="questions-container">
+        <!-- សំណួរត្រូវបានចែកជាទំព័រៗទីនេះ -->
+    </div>
+
+    <!-- បូតុងបញ្ជាទំព័រ (Pagination Controls) -->
+    <div class="pagination-controls">
+        <button id="prev-btn" onclick="changePage(-1)" style="background-color: #7f8c8d;">❮ ទំព័រមុន</button>
+        <span class="page-indicator" id="page-indicator">ទំព័រទី 1 / 4</span>
+        <button id="next-btn" onclick="changePage(1)">ទំព័របន្ទាប់ ❯</button>
+        <button id="submit-btn" onclick="submitExam()" style="background-color: #2ecc71; display: none;">បញ្ចប់ការប្រឡង ✔️</button>
+    </div>
+</div>
+
+<div class="container" id="result-screen">
+    <div class="result-summary">
+        <h2>លទ្ធផលនៃការប្រឡង</h2>
+        <div style="font-size: 18px; color: #34495e;">ឈ្មោះ៖ <strong id="res-name"></strong> | រយៈពេល៖ <strong id="res-time"></strong></div>
+        
+        <!-- កន្លែងបង្ហាញកាលបរិច្ឆេទស្វ័យប្រវត្តិ -->
+        <div style="font-size: 15px; color: #7f8c8d; margin-top: 10px; font-style: italic;">
+            កាលបរិច្ឆេទ៖ <strong id="res-datetime"></strong>
+        </div>
+
+        <div class="score-display">ពិន្ទុរបស់អ្នក៖ <span id="res-score"></span> / 100</div>
+        <div class="grade-display">និទ្ទេស៖ <span id="res-grade"></span></div>
+        <div class="motivational-msg" id="res-msg"></div>
+    </div>
+    <h3 style="border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">លម្អិតលំហាត់ និងដំណោះស្រាយ</h3>
+    <div id="review-container">
+        <!-- ដំណោះស្រាយនឹងត្រូវបានបង្ហាញទីនេះ -->
+    </div>
+    <div style="text-align: center; margin-top: 40px;">
+        <button onclick="location.reload()">ត្រឡប់ទៅដើមវិញ 🔄</button>
+    </div>
+</div>
+
+<script>
+    const rawQuestions = [
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x - 3}{x + 2} > 0",
+        ans: "x < -2 \\text{ ឬ } x > 3",
+        options: ["x < -2 \\text{ ឬ } x > 3", "-2 < x < 3", "x > 3", "x < -2"],
+        mathSol: "\\text{ឫសភាគយក } x = 3, \\text{ ឫសភាគបែង } x = -2 \\implies x < -2 \\text{ ឬ } x > 3",
+        textSol: "សិក្សាសញ្ញាប្រភាគ៖ យកចន្លោះដែលមានសញ្ញា (+) គឺនៅខាងក្រៅចន្លោះឫសទាំងពីរ និងលក្ខខណ្ឌភាគបែង $x \\neq -2$"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x + 4}{x - 1} < 0",
+        ans: "-4 < x < 1",
+        options: ["-4 < x < 1", "x < -4 \\text{ ឬ } x > 1", "x < 1", "x > -4"],
+        mathSol: "\\text{ឫសភាគយក } x = -4, \\text{ ឫសភាគបែង } x = 1 \\implies -4 < x < 1",
+        textSol: "ប្រភាគអវិជ្ជមាន (< 0) នៅពេលភាគយកនិងភាគបែងមានសញ្ញាផ្ទុយគ្នា គឺស្ថិតនៅក្នុងចន្លោះចន្លោះឫស (-4, 1)"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{2x - 6}{x + 1} \\le 0",
+        ans: "-1 < x \\le 3",
+        options: ["-1 < x \\le 3", "-1 \\le x \\le 3", "x < -1 \\text{ ឬ } x \\ge 3", "x < -1"],
+        mathSol: "2x - 6 = 0 \\implies x = 3; \\quad x + 1 = 0 \\implies x = -1 \\implies -1 < x \\le 3",
+        textSol: "ចម្លើយយកចន្លោះ [−1, 3] ប៉ុន្តែលក្ខខណ្ឌភាគបែង $x \\neq -1$ ដូច្នេះប្រើសញ្ញា < នៅត្រង់ -1"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x + 5}{x - 2} \\ge 0",
+        ans: "x \\le -5 \\text{ ឬ } x > 2",
+        options: ["x \\le -5 \\text{ ឬ } x > 2", "x \\le -5 \\text{ ឬ } x \\ge 2", "-5 \\le x < 2", "-5 \\le x \\le 2"],
+        mathSol: "x + 5 = 0 \\implies x = -5; \\quad x - 2 = 0 \\implies x = 2 \\implies x \\le -5 \\text{ ឬ } x > 2",
+        textSol: "យកចន្លោះខាងក្រៅឫស ដោយបើកចន្លោះត្រង់ $x = 2$ ព្រោះភាគបែងមិនអាចស្មើ 0 បានទេ"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{5}{x - 3} > 0",
+        ans: "x > 3",
+        options: ["x > 3", "x < 3", "x > 0", "x < 0"],
+        mathSol: "\\text{ភាគយក 5 } > 0 \\implies x - 3 > 0 \\implies x > 3",
+        textSol: "ភាគយកជាចំនួនវិជ្ជមាន 5 រួចស្រេច ដូច្នេះប្រភាគវិជ្ជមានបានលុះត្រាតែភាគបែង $x - 3 > 0$"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{-4}{x + 2} > 0",
+        ans: "x < -2",
+        options: ["x < -2", "x > -2", "x < 2", "x > 2"],
+        mathSol: "\\text{ភាគយក -4 } < 0 \\implies x + 2 < 0 \\implies x < -2",
+        textSol: "ភាគយកជាចំនួនអវិជ្ជមាន -4 ដូច្នេះដើមី្បឱ្យប្រភាគ > 0 ភាគបែងត្រូវតែអវិជ្ជមានដែរ ($x + 2 < 0$)"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x}{x - 4} \\le 0",
+        ans: "0 \\le x < 4",
+        options: ["0 \\le x < 4", "0 \\le x \\le 4", "x \\le 0 \\text{ ឬ } x > 4", "x < 0 \\text{ ឬ } x \\ge 4"],
+        mathSol: "\\text{ឫសភាគយក } x = 0, \\text{ ឫសភាគបែង } x = 4 \\implies 0 \\le x < 4",
+        textSol: "យកចន្លោះខាងក្នុង [0, 4) ដោយជម្រុះ $x = 4$ ចោលតាមលក្ខខណ្ឌភាគបែងខុសពីសូន្យ"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x + 1}{x - 1} > 1",
+        ans: "x > 1",
+        options: ["x > 1", "x < 1", "x > 0", "x < 0"],
+        mathSol: "\\frac{x + 1}{x - 1} - 1 > 0 \\implies \\frac{(x + 1) - (x - 1)}{x - 1} > 0 \\implies \\frac{2}{x - 1} > 0 \\implies x > 1",
+        textSol: "បោះ 1 មកអង្គខាងឆ្វេងរៀបចំជាប្រភាគតែមួយ ហាមគុណខ្វែងអថេរដែលមិនដឹងសញ្ញាច្បាស់លាស់"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x}{x + 3} \\le 2",
+        ans: "x < -3 \\text{ ឬ } x \\ge -6",
+        options: ["x < -3 \\text{ ឬ } x \\ge -6", "-6 \\le x < -3", "x \\le -6", "x > -3"],
+        mathSol: "\\frac{x}{x + 3} - 2 \\le 0 \\implies \\frac{x - 2x - 6}{x + 3} \\le 0 \\implies \\frac{-x - 6}{x + 3} \\le 0 \\implies x \\le -6 \\text{ ឬ } x > -3",
+        textSol: "តម្រូវភាគបែងរួមទទួលបាន $\\frac{-x-6}{x+3} \\le 0$ សិក្សាសញ្ញាទាញរកចន្លោះចម្លើយ"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x^2 - 4}{x + 1} > 0",
+        ans: "-2 < x < -1 \\text{ ឬ } x > 2",
+        options: ["-2 < x < -1 \\text{ ឬ } x > 2", "x < -2 \\text{ ឬ } -1 < x < 2", "-2 < x < 2", "x > 2"],
+        mathSol: "\\frac{(x - 2)(x + 2)}{x + 1} > 0 \\implies -2 < x < -1 \\text{ ឬ } x > 2",
+        textSol: "បំបែកភាគយកជាកត្តា $(x-2)(x+2)$ មានឫស -2, -1, 2 រួចគូសតារាងសញ្ញាទាញយកចន្លោះ (+)"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x^2 - 9}{x - 3} > 0",
+        ans: "x > -3 \\text{ និង } x \\neq 3",
+        options: ["x > -3 \\text{ និង } x \\neq 3", "x > -3", "x > 3", "x < -3"],
+        mathSol: "\\frac{(x - 3)(x + 3)}{x - 3} > 0 \\implies x + 3 > 0 \\implies x > -3 \\quad (x \\neq 3)",
+        textSol: "សម្រួល $(x - 3)$ ភាគយកនិងភាគបែងចោល ប៉ុន្តែត្រូវរក្សាលក្ខខណ្ឌភាគបែង $x \\neq 3$"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{1}{x} < 1",
+        ans: "x < 0 \\text{ ឬ } x > 1",
+        options: ["x < 0 \\text{ ឬ } x > 1", "0 < x < 1", "x > 1", "x < 1"],
+        mathSol: "\\frac{1}{x} - 1 < 0 \\implies \\frac{1 - x}{x} < 0 \\implies x < 0 \\text{ ឬ } x > 1",
+        textSol: "បោះ 1 មកឆ្វេងបង្រួមជា $\\frac{1-x}{x} < 0$ ឫសគឺ 0 និង 1 យកចន្លោះខាងក្រៅ"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{3}{x + 2} \\le 1",
+        ans: "x < -2 \\text{ ឬ } x \\ge 1",
+        options: ["x < -2 \\text{ ឬ } x \\ge 1", "-2 < x \\le 1", "x \\ge 1", "x < -2"],
+        mathSol: "\\frac{3}{x + 2} - 1 \\le 0 \\implies \\frac{3 - x - 2}{x + 2} \\le 0 \\implies \\frac{1 - x}{x + 2} \\le 0 \\implies x < -2 \\text{ ឬ } x \\ge 1",
+        textSol: "បោះ 1 មកដក $\\frac{1-x}{x+2} \\le 0$ មានឫស -2 និង 1 យកចន្លោះក្រៅ"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{(x - 1)^2}{x + 3} \\ge 0",
+        ans: "x > -3",
+        options: ["x > -3", "x \\ge -3", "x > 1", "x \\ge 1"],
+        mathSol: "(x - 1)^2 \\ge 0 \\quad (\\text{ពិតជានិច្ច}) \\implies x + 3 > 0 \\implies x > -3",
+        textSol: "ភាគយកជាស្វ័យគុណពីរ $(x-1)^2 \\ge 0$ ជានិច្ច ដូច្នេះប្រភាគ $\\ge 0$ កាលណាភាគបែង $x + 3 > 0$"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{-2}{(x - 5)^2} < 0",
+        ans: "x \\neq 5",
+        options: ["x \\neq 5", "\\text{គ្រប់ } x \\in \\mathbb{R}", "x < 5", "x > 5"],
+        mathSol: "\\text{ភាគយក -2 } < 0, \\text{ ភាគបែង } (x - 5)^2 > 0 \\quad (\\text{គ្រប់ } x \\neq 5) \\implies \\text{ពិតគ្រប់ } x \\neq 5",
+        textSol: "ភាគយកអវិជ្ជមាន ភាគបែងវិជ្ជមានជានិច្ច នាំឱ្យផលចែកអវិជ្ជមានជានិច្ចគ្រប់ $x \\neq 5$"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x + 2}{x^2 + 1} \\le 0",
+        ans: "x \\le -2",
+        options: ["x \\le -2", "x \\ge -2", "-2 \\le x \\le 0", "\\text{គ្មានចម្លើយ}"],
+        mathSol: "\\text{ភាគបែង } x^2 + 1 > 0 \\quad (\\text{ពិតគ្រប់ } x) \\implies x + 2 \\le 0 \\implies x \\le -2",
+        textSol: "ភាគបែង $x^2 + 1 > 0$ ជានិច្ចសម្រាប់គ្រប់ចំនួនពិត នាំឱ្យសញ្ញានៃប្រភាគអាស្រ័យលើភាគយក $x + 2 \\le 0$"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{2x + 4}{x - 3} > 2",
+        ans: "x > 3",
+        options: ["x > 3", "x < 3", "x > -2", "x < -2"],
+        mathSol: "\\frac{2x + 4 - 2(x - 3)}{x - 3} > 0 \\implies \\frac{10}{x - 3} > 0 \\implies x - 3 > 0 \\implies x > 3",
+        textSol: "តម្រូវភាគបែងរួមភាគយកសម្រួល $2x - 2x = 0$ សល់តែ $10 > 0$ នាំឱ្យភាគបែង $x - 3 > 0$"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x - 2}{x + 3} \\ge 1",
+        ans: "x < -3",
+        options: ["x < -3", "x > -3", "x \\le 2", "x \\ge 2"],
+        mathSol: "\\frac{x - 2 - (x + 3)}{x + 3} \\ge 0 \\implies \\frac{-5}{x + 3} \\ge 0 \\implies x + 3 < 0 \\implies x < -3",
+        textSol: "ភាគយកសម្រួលសល់ -5 (អវិជ្ជមាន) ដូច្នេះភាគបែងត្រូវតែអវិជ្ជមានដែរ ($x + 3 < 0$)"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{x^2 - 5x + 6}{x} < 0",
+        ans: "x < 0 \\text{ ឬ } 2 < x < 3",
+        options: ["x < 0 \\text{ ឬ } 2 < x < 3", "0 < x < 2 \\text{ ឬ } x > 3", "2 < x < 3", "x < 0"],
+        mathSol: "\\frac{(x - 2)(x - 3)}{x} < 0 \\implies x < 0 \\text{ ឬ } 2 < x < 3",
+        textSol: "បំបែកភាគយកជា $(x-2)(x-3)$ មានឫស 0, 2, 3 សិក្សាសញ្ញាក្នុងតារាងយកចន្លោះអវិជ្ជមាន"
+    },
+    {
+        prefix: "ដោះស្រាយវិសមីការ",
+        eq: "\\frac{3}{x - 1} < \\frac{2}{x - 1}",
+        ans: "x < 1",
+        options: ["x < 1", "x > 1", "\\text{គ្មានចម្លើយ}", "\\text{គ្រប់ } x \\neq 1"],
+        mathSol: "\\frac{3 - 2}{x - 1} < 0 \\implies \\frac{1}{x - 1} < 0 \\implies x - 1 < 0 \\implies x < 1",
+        textSol: "ប្រមូលប្រភាគមកភាគខាងឆ្វេងបាន $\\frac{1}{x - 1} < 0$ ភាគយកវិជ្ជមាន នាំឱ្យភាគបែង $x - 1 < 0$"
+    }
+];
+
+    let examQuestions = [];
+    let startTime;
+    let timerInterval;
+    let studentName = "";
+    
+    // ការកំណត់ Pagination (១ ទំព័រ មាន ៥ លំហាត់ => សរុប ៤ ទំព័រ)
+    let currentPage = 1;
+    const questionsPerPage = 5;
+    const totalPages = Math.ceil(rawQuestions.length / questionsPerPage);
+
+    // Function ការពារ Refresh / Close tab ដោយអចេតនា
+    function preventClose(e) {
+        e.preventDefault();
+        e.returnValue = ''; 
+    }
+
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    function startExam() {
+        const nameInput = document.getElementById('student-name').value.trim();
+        if(nameInput === "") {
+            alert("សូមបញ្ចូលឈ្មោះរបស់អ្នកជាមុនសិន!");
+            return;
+        }
+        studentName = nameInput;
+        document.getElementById('display-name').innerText = studentName;
+        
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('exam-screen').style.display = 'block';
+        
+        examQuestions = shuffle([...rawQuestions]).map(q => {
+            return {
+                ...q,
+                shuffledOptions: shuffle([...q.options])
+            };
+        });
+
+        renderQuestions();
+        updatePaginationUI();
+        
+        startTime = Date.now();
+        timerInterval = setInterval(updateTimer, 1000);
+
+        window.addEventListener('beforeunload', preventClose);
+    }
+
+    function updateTimer() {
+        const diff = Math.floor((Date.now() - startTime) / 1000);
+        const m = Math.floor(diff / 60).toString().padStart(2, '0');
+        const s = (diff % 60).toString().padStart(2, '0');
+        document.getElementById('timer').innerText = `${m}:${s}`;
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        let html = '';
+        
+        for (let page = 1; page <= totalPages; page++) {
+            const startIndex = (page - 1) * questionsPerPage;
+            const pageQuestions = examQuestions.slice(startIndex, startIndex + questionsPerPage);
+            
+            html += `<div class="page-group ${page === 1 ? 'active' : ''}" id="page-${page}">`;
+            
+            pageQuestions.forEach((q, idx) => {
+                const globalIndex = startIndex + idx;
+                html += `
+                    <div class="question-card" id="q-card-${globalIndex}">
+                        <div class="question-text">លំហាត់ទី ${globalIndex + 1} ៖ ${q.prefix} <br><br> $$ ${q.eq} = ? $$</div>
+                        <ul class="options-list">
+                `;
+                q.shuffledOptions.forEach((opt) => {
+                    html += `
+                        <li>
+                            <label>
+                                <input type="radio" name="q${globalIndex}" value="${opt.replace(/"/g, '&quot;')}">
+                                $ ${opt} $
+                            </label>
+                        </li>
+                    `;
+                });
+                html += `</ul></div>`;
+            });
+            
+            html += `</div>`;
+        }
+        
+        container.innerHTML = html;
+        MathJax.typesetPromise();
+    }
+
+    function updatePaginationUI() {
+        document.querySelectorAll('.page-group').forEach((group, idx) => {
+            if (idx + 1 === currentPage) {
+                group.classList.add('active');
+            } else {
+                group.classList.remove('active');
+            }
+        });
+
+        document.getElementById('page-indicator').innerText = `ទំព័រទី ${currentPage} / ${totalPages}`;
+        document.getElementById('prev-btn').style.display = currentPage === 1 ? 'none' : 'inline-block';
+        
+        if (currentPage === totalPages) {
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('submit-btn').style.display = 'inline-block';
+        } else {
+            document.getElementById('next-btn').style.display = 'inline-block';
+            document.getElementById('submit-btn').style.display = 'none';
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    function changePage(direction) {
+        currentPage += direction;
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        updatePaginationUI();
+    }
+
+    function toggleAnswer(index) {
+        const box = document.getElementById(`reveal-box-${index}`);
+        const btn = document.getElementById(`btn-reveal-${index}`);
+        if (box.style.display === 'none') {
+            box.style.display = 'block';
+            btn.innerText = '🔒 លាក់ចម្លើយត្រឹមត្រូវវិញ';
+            btn.style.backgroundColor = '#7f8c8d';
+            MathJax.typesetPromise([box]);
+        } else {
+            box.style.display = 'none';
+            btn.innerText = '👁️ មើលចម្លើយត្រឹមត្រូវ និងដំណោះស្រាយ';
+            btn.style.backgroundColor = '#e67e22';
+        }
+    }
+
+    function submitExam() {
+        let unansweredCount = 0;
+        for (let i = 0; i < examQuestions.length; i++) {
+            const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+            if (!selectedOption) {
+                unansweredCount++;
+            }
+        }
+
+        if (unansweredCount > 0) {
+            let confirmUnanswered = confirm(`⚠️ អ្នកនៅសល់លំហាត់ចំនួន ${unansweredCount} ទៀតដែលមិនទាន់បានជ្រើសរើសចម្លើយ!\nតើអ្នកពិតជាចង់បញ្ចប់ការប្រឡងមែនទេ?`);
+            if (!confirmUnanswered) return; 
+        } else {
+            if(!confirm("តើអ្នកពិតជាចង់បញ្ចប់ការប្រឡង និងមើលលទ្ធផលមែនទេ?")) return;
+        }
+
+        clearInterval(timerInterval);
+        window.removeEventListener('beforeunload', preventClose);
+
+        const now = new Date();
+        const days = ["អាទិត្យ", "ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហស្បតិ៍", "សុក្រ", "សៅរ៍"];
+        const months = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+        
+        let dayName = days[now.getDay()];
+        let dateNum = now.getDate();
+        let monthName = months[now.getMonth()];
+        let year = now.getFullYear();
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+        let seconds = now.getSeconds().toString().padStart(2, '0');
+        
+        let formattedDateTime = `ថ្ងៃ ${dayName} ទី ${dateNum} ខែ ${monthName} ឆ្នាំ ${year} ម៉ោង ${hours} នាទី ${minutes} វិនាទី ${seconds}`;
+
+        let score = 0;
+        let reviewHtml = '';
+
+        examQuestions.forEach((q, index) => {
+            const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+            const userAns = selectedOption ? selectedOption.value : null;
+            
+            let statusClass = 'unanswered-bg';
+            let statusText = 'មិនបានឆ្លើយ ⚠️ (០ ពិន្ទុ)';
+            let statusColor = '#f39c12';
+            let solutionContent = '';
+
+            if (userAns === q.ans) {
+                score += 5;
+                statusClass = 'correct-bg';
+                statusText = 'ត្រឹមត្រូវ ✅ (+៥ ពិន្ទុ)';
+                statusColor = '#27ae60';
+            } else if (userAns !== null) {
+                score -= 2; 
+                statusClass = 'wrong-bg';
+                statusText = 'មិនទាន់ត្រឹមត្រូវ ❌ (-២ ពិន្ទុ)';
+                statusColor = '#c0392b';
+            }
+
+            if (score < 0) score = 0;
+
+            if (userAns !== null) {
+                solutionContent = `
+                    <div class="solution-box">
+                        <strong>សម្រាយបញ្ជាក់៖</strong><br>
+                        $$ ${q.sol} $$
+                    </div>
+                `;
+            } else {
+                solutionContent = `
+                    <div class="hidden-solution-box">
+                        <strong>សម្គាល់៖</strong> ដោយសារអ្នកមិនបានជ្រើសរើសចម្លើយ ដូច្នេះប្រព័ន្ធមិនបង្ហាញដំណោះស្រាយសម្រាប់លំហាត់នេះទេ។
+                    </div>
+                `;
+            }
+
+            reviewHtml += `
+                <div class="review-card ${statusClass}">
+                    <strong>លំហាត់ទី ${index + 1} ៖</strong> ${q.prefix} $$ ${q.eq} $$
+                    <div class="ans-row">
+                        <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span><br><br>
+                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{}'} $</strong> <br><br>
+                        
+                        <button onclick="toggleAnswer(${index})" id="btn-reveal-${index}" style="background-color: #e67e22; padding: 6px 15px; font-size: 14px; margin-top: 5px;">👁️ មើលចម្លើយត្រឹមត្រូវ និងដំណោះស្រាយ</button>
+                    </div>
+
+                    <div id="reveal-box-${index}" style="display: none; margin-top: 15px;">
+                        <div style="font-size: 16px; margin-bottom: 10px;">ចម្លើយត្រឹមត្រូវ៖ <strong>$ ${q.ans} $</strong></div>
+                        ${solutionContent}
+                    </div>
+                </div>
+            `;
+        });
+
+        let grade = '';
+        let msg = '';
+        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីប្រមាណវិធីលើប្រភាគចំនួន! 🌟'; }
+        else if (score >= 80) { grade = 'B (ល្អណាស់)'; msg = 'ធ្វើបានល្អណាស់! បន្តការខិតខំបន្ថែមទៀត! 👍'; }
+        else if (score >= 70) { grade = 'C (ល្អ)'; msg = 'លទ្ធផលល្អ! សាកល្បងហ្វឹកហាត់បន្ថែមដើម្បីទទួលបានលទ្ធផលកាន់តែប្រសើរ! 💪'; }
+        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកក្បួនបូកដកនិងគុណចែកប្រភាគឡើងវិញបន្តិចទៀត! 📚'; }
+        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលគណនាភាគបែងរួមនិងសញ្ញាអវិជ្ជមាន! 📖'; }
+        else { grade = 'F (ធ្លាក់)'; msg = 'សូមកុំបោះបង់! ព្យាយាមមើលមេរៀន និងសម្រាយបញ្ជាក់ឡើងវិញណា៎! 🤝'; }
+
+        document.getElementById('exam-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+
+        document.getElementById('res-name').innerText = studentName;
+        document.getElementById('res-time').innerText = document.getElementById('timer').innerText;
+        document.getElementById('res-datetime').innerText = formattedDateTime;
+        document.getElementById('res-score').innerText = score;
+        document.getElementById('res-grade').innerText = grade;
+        document.getElementById('res-msg').innerText = msg;
+
+        document.getElementById('review-container').innerHTML = reviewHtml;
+        MathJax.typesetPromise();
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
