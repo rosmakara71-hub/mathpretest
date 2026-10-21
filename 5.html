@@ -375,7 +375,7 @@
         ans: "7x^2 + 4x",
         options: ["7x^2 + 4x", "9x^3 + 4x", "11x^3", "7x^2 - 4x"],
         mathSol: "(5x^2 + 2x^2) + (-3x + 7x) = 7x^2 + 4x",
-        textSol: "ដាក់ក្រុមឯកធាដូចគ្នា (Like terms) បញ្ចូលគ្នា គឺតួ $x^2$ និងតួ $x$"
+        textSol: "ដាក់ក្រុមឯកធាដូចគ្នា បញ្ចូលគ្នា គឺតួ $x^2$ និងតួ $x$"
     },
     {
         prefix: "គណនាកន្សោម",
@@ -391,7 +391,7 @@
         ans: "12x^3 - 8x^2",
         options: ["12x^3 - 8x^2", "12x^3 - 2x", "5x^3 - 2x^2", "10x^3"],
         mathSol: "4x \\cdot 3x^2 + 4x \\cdot (-2x) = 12x^3 - 8x^2",
-        textSol: "ពង្រីកតួក្រៅរង្វង់ក្រចកគុណនឹងតួនិមួយៗក្នុងរង្វង់ក្រចក (Distribution property)"
+        textSol: "ពង្រីកតួក្រៅរង្វង់ក្រចកគុណនឹងតួនិមួយៗក្នុងរង្វង់ក្រចក"
     },
     {
         prefix: "គណនាកន្សោម",
@@ -399,7 +399,7 @@
         ans: "3x^2y - x",
         options: ["3x^2y - x", "3x^2y - 1", "3x^3y^2 - x", "3x^2y - 5xy"],
         mathSol: "\\frac{15x^3y^2}{5xy} - \\frac{5x^2y}{5xy} = 3x^2y - x^1y^0 = 3x^2y - x",
-        textSol: "ចែកពហុធានឹងឯកធា ដោយយក denominators ចែកដាច់ពីគ្នានូវរាល់តួក្នុងភាគយក"
+        textSol: "ចែកពហុធានឹងឯកធា ដោយយកភាគបែងចែកដាច់ពីគ្នានូវរាល់តួក្នុងភាគយក"
     },
     {
         prefix: "គណនាកន្សោម",
@@ -460,10 +460,10 @@
     {
         prefix: "គណនាកន្សោម",
         eq: "\\left(-3x^2\\right)^3 \\div \\left(3x^3\\right)^2",
-        ans: "-3x^3",
-        options: ["-3x^3", "3x^3", "-9x^3", "-3x"],
+        ans: "-3",
+        options: ["-3", "3", "-9x^3", "-3x"],
         mathSol: "\\frac{-27x^6}{9x^6} = -3x^{6-6} = -3x^0 = -3",
-        textSol: "ចំណាំ៖ លទ្ធផលត្រឹមត្រូវគឺ -3 (ព្រោះ $x^0 = 1$) ប៉ុន្តែបើតាមជម្រើសគឺ -3x^3 ឬកែសម្រួលដឺក្រេ៖ សូមពិនិត្យកន្សោមស្វ័យគុណ៖ \\frac{-27x^6}{9x^3} = -3x^3"
+        textSol: "គណនាស្វ័យគុណភាគយកបាន $-27x^6$ និងភាគបែងបាន $9x^6$ រួចធ្វើប្រមាណវិធីចែកបាន $-3$"
     }
 ];
 
@@ -673,7 +673,8 @@
                 solutionContent = `
                     <div class="solution-box">
                         <strong>សម្រាយបញ្ជាក់៖</strong><br>
-                        $$ ${q.sol} $$
+                        $$ ${q.mathSol} $$
+                        <br><span style="color: #7f8c8d; font-size: 14px;">💡 ${q.textSol}</span>
                     </div>
                 `;
             } else {
@@ -689,7 +690,7 @@
                     <strong>លំហាត់ទី ${index + 1} ៖</strong> ${q.prefix} $$ ${q.eq} $$
                     <div class="ans-row">
                         <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span><br><br>
-                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{}'} $</strong> <br><br>
+                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{គ្មាន}'} $</strong> <br><br>
                         
                         <button onclick="toggleAnswer(${index})" id="btn-reveal-${index}" style="background-color: #e67e22; padding: 6px 15px; font-size: 14px; margin-top: 5px;">👁️ មើលចម្លើយត្រឹមត្រូវ និងដំណោះស្រាយ</button>
                     </div>
@@ -704,11 +705,11 @@
 
         let grade = '';
         let msg = '';
-        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីប្រមាណវិធីលើប្រភាគចំនួន! 🌟'; }
+        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីប្រមាណវិធីលើឯកធា! 🌟'; }
         else if (score >= 80) { grade = 'B (ល្អណាស់)'; msg = 'ធ្វើបានល្អណាស់! បន្តការខិតខំបន្ថែមទៀត! 👍'; }
         else if (score >= 70) { grade = 'C (ល្អ)'; msg = 'លទ្ធផលល្អ! សាកល្បងហ្វឹកហាត់បន្ថែមដើម្បីទទួលបានលទ្ធផលកាន់តែប្រសើរ! 💪'; }
-        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកក្បួនបូកដកនិងគុណចែកប្រភាគឡើងវិញបន្តិចទៀត! 📚'; }
-        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលគណនាភាគបែងរួមនិងសញ្ញាអវិជ្ជមាន! 📖'; }
+        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកក្បួនប្រមាណវិធីលើឯកធាឡើងវិញបន្តិចទៀត! 📚'; }
+        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលគណនាដឺក្រេអថេរនិងសញ្ញាអវិជ្ជមាន! 📖'; }
         else { grade = 'F (ធ្លាក់)'; msg = 'សូមកុំបោះបង់! ព្យាយាមមើលមេរៀន និងសម្រាយបញ្ជាក់ឡើងវិញណា៎! 🤝'; }
 
         document.getElementById('exam-screen').style.display = 'none';
