@@ -472,10 +472,12 @@
     let timerInterval;
     let studentName = "";
     
+    // ការកំណត់ Pagination (១ ទំព័រ មាន ៥ លំហាត់ => សរុប ៤ ទំព័រ)
     let currentPage = 1;
     const questionsPerPage = 5;
     const totalPages = Math.ceil(rawQuestions.length / questionsPerPage);
 
+    // Function ការពារ Refresh / Close tab ដោយអចេតនា
     function preventClose(e) {
         e.preventDefault();
         e.returnValue = ''; 
