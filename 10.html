@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ការប្រឡង៖ ដោះស្រាយវិសមីការដឺក្រេទី២</title>
+    <title>ការប្រឡង៖ ដោះស្រាយសមីការដឺក្រេទី២</title>
     
     <!-- កំណត់ Configuration ឱ្យ MathJax ស្គាល់សញ្ញា $...$ -->
     <script>
@@ -248,7 +248,7 @@
 
 <div class="container" id="start-screen">
     <h2>ប្រឡងវាស់ស្ទង់សមត្ថភាពគណិតវិទ្យា</h2>
-    <div class="subtitle">ប្រធានបទ៖ ដោះស្រាយវិសមីការដឺក្រេទី២</div>
+    <div class="subtitle">ប្រធានបទ៖ ដោះស្រាយសមីការដឺក្រេទី២</div>
     <p style="text-align: center; color: #7f8c8d; font-size: 1.1em;">
         ចំនួនលំហាត់៖ ២០ គ្រាប់ (ចែកជា ៤ ទំព័រ) | ឆ្លើយត្រូវ៖ +៥ ពិន្ទុ | ឆ្លើយខុស៖ -២ ពិន្ទុ<br>
         <small style="color: #e74c3c;">*សម្គាល់៖ ប្រសិនបើអ្នកមិនជ្រើសរើសចម្លើយ មិនត្រូវបានកាត់ពិន្ទុឡើយ (០ ពិន្ទុ)។</small>
@@ -306,164 +306,164 @@
 <script>
     const rawQuestions = [
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 9 < 0",
-        ans: "-3 < x < 3",
-        options: ["-3 < x < 3", "x < -3 \\text{ ឬ } x > 3", "x < 3", "x > -3"],
-        mathSol: "(x - 3)(x + 3) < 0 \\implies -3 < x < 3",
-        textSol: "បំបែកជាផលគុណកត្តា $(x-3)(x+3) < 0$ ឫសគឺ -3 និង 3 ព្រោះសញ្ញា < នោះចម្លើយនៅក្នុងចន្លោះឫសទាំងពីរ"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 - 9 = 0",
+        ans: "x = 3, x = -3",
+        options: ["x = 3, x = -3", "x = 9, x = -9", "x = 3", "x = -3"],
+        mathSol: "x^2 = 9 \\implies x = \\pm\\sqrt{9} \\implies x = 3, x = -3",
+        textSol: "បំបែកកន្សោមតាមរូបមន្ត $a^2 - b^2 = (a-b)(a+b) = 0$ រួចទាញរកឫសទាំងពីរ"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 16 \\ge 0",
-        ans: "x \\le -4 \\text{ ឬ } x \\ge 4",
-        options: ["x \\le -4 \\text{ ឬ } x \\ge 4", "-4 \\le x \\le 4", "x \\ge 4", "x \\le -4"],
-        mathSol: "(x - 4)(x + 4) \\ge 0 \\implies x \\le -4 \\text{ ឬ } x \\ge 4",
-        textSol: "បំបែកជា $(x-4)(x+4) \\ge 0$ ព្រោះសញ្ញា $\\ge$ នោះចម្លើយនៅក្រៅចន្លោះឫសទាំងពីរ"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 - 5x + 6 = 0",
+        ans: "x = 2, x = 3",
+        options: ["x = 2, x = 3", "x = -2, x = -3", "x = 1, x = 6", "x = -1, x = -6"],
+        mathSol: "(x - 2)(x - 3) = 0 \\implies x = 2 \\text{ ឬ } x = 3",
+        textSol: "កត្តាភាពត្រីធាស្វ័យគុណទីពីរដោយរកចំនួនពីរដែលមានផលគុណស្មើ 6 និងផលបូកស្មើ 5"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 5x + 6 < 0",
-        ans: "2 < x < 3",
-        options: ["2 < x < 3", "x < 2 \\text{ ឬ } x > 3", "-3 < x < -2", "x < -3 \\text{ ឬ } x > -2"],
-        mathSol: "(x - 2)(x - 3) < 0 \\implies 2 < x < 3",
-        textSol: "ដាក់ជាផលគុណកត្តា $(x-2)(x-3) < 0$ មានឫស 2 និង 3 យកចន្លោះខាងក្នុងឫស"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 + 7x + 10 = 0",
+        ans: "x = -2, x = -5",
+        options: ["x = -2, x = -5", "x = 2, x = 5", "x = -1, x = -10", "x = 1, x = 10"],
+        mathSol: "(x + 2)(x + 5) = 0 \\implies x = -2 \\text{ ឬ } x = -5",
+        textSol: "ស្វែងរកកត្តាពីរដែលមានផលគុណស្មើ 10 និងផលបូកស្មើ 7 គឺ 2 និង 5"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 7x + 10 \\ge 0",
-        ans: "x \\le 2 \\text{ ឬ } x \\ge 5",
-        options: ["x \\le 2 \\text{ ឬ } x \\ge 5", "2 \\le x \\le 5", "x \\le -5 \\text{ ឬ } x \\ge -2", "-5 \\le x \\le -2"],
-        mathSol: "(x - 2)(x - 5) \\ge 0 \\implies x \\le 2 \\text{ ឬ } x \\ge 5",
-        textSol: "បំបែកជាកត្តា $(x-2)(x-5) \\ge 0$ មានឫស 2 និង 5 យកចន្លោះខាងក្រៅឫស"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 - 4x = 0",
+        ans: "x = 0, x = 4",
+        options: ["x = 0, x = 4", "x = 4", "x = 0, x = -4", "x = -4"],
+        mathSol: "x(x - 4) = 0 \\implies x = 0 \\text{ ឬ } x - 4 = 0 \\implies x = 4",
+        textSol: "ដាក់កត្តារួម x ជាកត្តា ទទួលបានឫសមួយស្មើនឹងសូន្យ"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 4x \\le 0",
-        ans: "0 \\le x \\le 4",
-        options: ["0 \\le x \\le 4", "x \\le 0 \\text{ ឬ } x \\ge 4", "-4 \\le x \\le 0", "x \\le -4 \\text{ ឬ } x \\ge 0"],
-        mathSol: "x(x - 4) \\le 0 \\implies 0 \\le x \\le 4",
-        textSol: "ដាក់កត្តារួម $x(x-4) \\le 0$ មានឫស 0 និង 4 យកចន្លោះចន្លោះរវាង 0 និង 4"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "2x^2 - 8 = 0",
+        ans: "x = 2, x = -2",
+        options: ["x = 2, x = -2", "x = 4, x = -4", "x = 2", "x = \\sqrt{2}"],
+        mathSol: "2(x^2 - 4) = 0 \\implies x^2 = 4 \\implies x = \\pm 2",
+        textSol: "បែងចែកអង្គទាំងពីរនឹងមេគុណ 2 រួចទាញរកតម្លៃ x ទាំងពីរ"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 + 3x > 0",
-        ans: "x < -3 \\text{ ឬ } x > 0",
-        options: ["x < -3 \\text{ ឬ } x > 0", "-3 < x < 0", "x < 0 \\text{ ឬ } x > 3", "0 < x < 3"],
-        mathSol: "x(x + 3) > 0 \\implies x < -3 \\text{ ឬ } x > 0",
-        textSol: "ដាក់កត្តារួម $x(x+3) > 0$ មានឫស 0 និង -3 យកចន្លោះខាងក្រៅឫស"
-    },
-    {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 6x + 9 > 0",
-        ans: "x \\neq 3",
-        options: ["x \\neq 3", "\\text{គ្រប់ } x \\in \\mathbb{R}", "x > 3", "\\text{គ្មានចម្លើយ}"],
-        mathSol: "(x - 3)^2 > 0 \\implies x \\neq 3",
-        textSol: "ស្វ័យគុណពីរ $(x-3)^2$ វិជ្ជមានជានិច្ចគ្រប់ $x$ លើកលែងតែ $x = 3$ ដែលធ្វើឱ្យវាស្មើ 0"
-    },
-    {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 6x + 9 \\le 0",
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 - 6x + 9 = 0",
         ans: "x = 3",
-        options: ["x = 3", "x \\le 3", "\\text{គ្មានចម្លើយ}", "-3 \\le x \\le 3"],
-        mathSol: "(x - 3)^2 \\le 0 \\implies x - 3 = 0 \\implies x = 3",
-        textSol: "ស្វ័យគុណពីរមិនអាចអវិជ្ជមានទេ ដូច្នេះអាចស្មើបានត្រឹម 0 គឺនៅពេល $x = 3$"
+        options: ["x = 3", "x = -3", "x = 3, x = -3", "x = 0"],
+        mathSol: "(x - 3)^2 = 0 \\implies x - 3 = 0 \\implies x = 3",
+        textSol: "កន្សោមខាងឆ្វេងជាស្វ័យគុណកន្សោមដក (Perfect square trinomial) ដូច្នេះមានឫសឌុបតែមួយស្មើនឹង 3"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 + 4 > 0",
-        ans: "\\text{គ្រប់ } x \\in \\mathbb{R}",
-        options: ["\\text{គ្រប់ } x \\in \\mathbb{R}", "x > -2", "x > 2 \\text{ ឬ } x < -2", "\\text{គ្មានចម្លើយ}"],
-        mathSol: "x^2 \\ge 0 \\implies x^2 + 4 \\ge 4 > 0 \\quad (\\text{ពិតជានិច្ច})",
-        textSol: "ព្រោះ $x^2 \\ge 0$ ជានិច្ច ដូច្នេះ $x^2 + 4$ ធំជាង 0 ជានិច្ចសម្រាប់គ្រប់តម្លៃ $x$"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 + 2x - 8 = 0",
+        ans: "x = 2, x = -4",
+        options: ["x = 2, x = -4", "x = -2, x = 4", "x = 1, x = -8", "x = 2, x = 4"],
+        mathSol: "(x + 4)(x - 2) = 0 \\implies x = -4 \\text{ ឬ } x = 2",
+        textSol: "រកកត្តាពីរដែលមានផលគុណ -8 និងផលបូក 2 គឺ 4 និង -2"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 + 25 < 0",
-        ans: "\\text{គ្មានចម្លើយ}",
-        options: ["\\text{គ្មានចម្លើយ}", "-5 < x < 5", "x < -5", "\\text{គ្រប់ } x \\in \\mathbb{R}"],
-        mathSol: "x^2 + 25 > 0 \\quad (\\text{ពិតជានិច្ច}) \\implies \\text{គ្មានតម្លៃ } x \\text{ ដែលធ្វើឱ្យ } x^2 + 25 < 0",
-        textSol: "ផលបូកនៃស្វ័យគុណពីរ និងចំនួនវិជ្ជមាន មិនអាចតូចជាង 0 បានឡើយ"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "3x^2 - 12x = 0",
+        ans: "x = 0, x = 4",
+        options: ["x = 0, x = 4", "x = 4", "x = -4", "x = 0, x = -4"],
+        mathSol: "3x(x - 4) = 0 \\implies x = 0 \\text{ ឬ } x = 4",
+        textSol: "ដាក់កត្តារួម 3x ធ្វើជាកត្តាដើម្បីងាយស្រួលទាញរកឫស"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - x - 6 \\le 0",
-        ans: "-2 \\le x \\le 3",
-        options: ["-2 \\le x \\le 3", "x \\le -2 \\text{ ឬ } x \\ge 3", "-3 \\le x \\le 2", "x \\le -3 \\text{ ឬ } x \\ge 2"],
-        mathSol: "(x - 3)(x + 2) \\le 0 \\implies -2 \\le x \\le 3",
-        textSol: "បំបែកកត្តា $(x-3)(x+2) \\le 0$ មានឫស -2 និង 3 យកចន្លោះបិទខាងក្នុង"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 - 3x - 10 = 0",
+        ans: "x = 5, x = -2",
+        options: ["x = 5, x = -2", "x = -5, x = 2", "x = 5, x = 2", "x = -5, x = -2"],
+        mathSol: "(x - 5)(x + 2) = 0 \\implies x = 5 \\text{ ឬ } x = -2",
+        textSol: "កត្តាភាពសមីការដោយប្រើផលគុណ -10 និងផលបូក -3"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 + 2x - 8 > 0",
-        ans: "x < -4 \\text{ ឬ } x > 2",
-        options: ["x < -4 \\text{ ឬ } x > 2", "-4 < x < 2", "x < -2 \\text{ ឬ } x > 4", "-2 < x < 4"],
-        mathSol: "(x + 4)(x - 2) > 0 \\implies x < -4 \\text{ ឬ } x > 2",
-        textSol: "បំបែកកត្តា $(x+4)(x-2) > 0$ មានឫស -4 និង 2 យកចន្លោះខាងក្រៅ"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 + 9 = 0",
+        ans: "\\text{គ្មានឫសក្នុងសំណុំចំនួនពិត}",
+        options: ["\\text{គ្មានឫសក្នុងសំណុំចំនួនពិត}", "x = 3, x = -3", "x = 3", "x = -3"],
+        mathSol: "x^2 = -9 \\implies \\text{គ្មានចំនួនពិតណាដែលមានស្វ័យគុណពីរអវិជ្ជមានទេ}",
+        textSol: "ព្រោះតម្លៃស្វ័យគុណគូ $x^2 \\geq 0$ ជានិច្ច ដូច្នេះមិនអាចស្មើនឹងចំនួនអវិជ្ជមាន -9 ក្នុងចំនួនពិតឡើយ"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "2x^2 - 8 < 0",
-        ans: "-2 < x < 2",
-        options: ["-2 < x < 2", "x < -2 \\text{ ឬ } x > 2", "-4 < x < 4", "x < -4 \\text{ ឬ } x > 4"],
-        mathSol: "2(x^2 - 4) < 0 \\implies (x - 2)(x + 2) < 0 \\implies -2 < x < 2",
-        textSol: "ចែកអង្គទាំងពីរនឹង 2 រួចបំបែក $(x-2)(x+2) < 0$ យកចន្លោះក្នុងឫស"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "(x - 2)(x + 3) = 0",
+        ans: "x = 2, x = -3",
+        options: ["x = 2, x = -3", "x = -2, x = 3", "x = 2, x = 3", "x = -2, x = -3"],
+        mathSol: "x - 2 = 0 \\text{ ឬ } x + 3 = 0 \\implies x = 2, x = -3",
+        textSol: "សមីការត្រូវបានរៀបចំជាផលគុណកត្តារួចជាស្រេច យកតែកត្តានីមួយៗផ្ទៀងផ្ទាត់នឹងសូន្យ"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 2x - 15 \\ge 0",
-        ans: "x \\le -3 \\text{ ឬ } x \\ge 5",
-        options: ["x \\le -3 \\text{ ឬ } x \\ge 5", "-3 \\le x \\le 5", "x \\le -5 \\text{ ឬ } x \\ge 3", "-5 \\le x \\le 3"],
-        mathSol: "(x - 5)(x + 3) \\ge 0 \\implies x \\le -3 \\text{ ឬ } x \\ge 5",
-        textSol: "បំបែកជា $(x-5)(x+3) \\ge 0$ មានឫស -3 និង 5 យកចន្លោះក្រៅ"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "4x^2 - 9 = 0",
+        ans: "x = \\frac{3}{2}, x = -\\frac{3}{2}",
+        options: ["x = \\frac{3}{2}, x = -\\frac{3}{2}", "x = \\frac{9}{4}, x = -\\frac{9}{4}", "x = \\frac{2}{3}, x = -\\frac{2}{3}", "x = 3, x = -3"],
+        mathSol: "(2x - 3)(2x + 3) = 0 \\implies x = \\frac{3}{2} \\text{ ឬ } x = -\\frac{3}{2}",
+        textSol: "បំបែកជាផលសងស្វ័យគុណ $(2x)^2 - 3^2 = 0$"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "-x^2 + 4x - 3 > 0",
-        ans: "1 < x < 3",
-        options: ["1 < x < 3", "x < 1 \\text{ ឬ } x > 3", "-3 < x < -1", "x < -3 \\text{ ឬ } x > -1"],
-        mathSol: "x^2 - 4x + 3 < 0 \\implies (x - 1)(x - 3) < 0 \\implies 1 < x < 3",
-        textSol: "គុណអង្គទាំងពីរនឹង -1 (ប្តូរសញ្ញា > ទៅជា <) រួចបំបែកកត្តា $(x-1)(x-3) < 0$"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 - x - 12 = 0",
+        ans: "x = 4, x = -3",
+        options: ["x = 4, x = -3", "x = -4, x = 3", "x = 6, x = -2", "x = -6, x = 2"],
+        mathSol: "(x - 4)(x + 3) = 0 \\implies x = 4 \\text{ ឬ } x = -3",
+        textSol: "ស្វែងរកកត្តាពីរដែលមានផលគុណ -12 និងផលបូកមេគុណកណ្ដាល -1"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "-x^2 + 9 \\le 0",
-        ans: "x \\le -3 \\text{ ឬ } x \\ge 3",
-        options: ["x \\le -3 \\text{ ឬ } x \\ge 3", "-3 \\le x \\le 3", "x \\ge 3", "x \\le -3"],
-        mathSol: "x^2 - 9 \\ge 0 \\implies (x - 3)(x + 3) \\ge 0 \\implies x \\le -3 \\text{ ឬ } x \\ge 3",
-        textSol: "គុណអង្គទាំងពីរនឹង -1 ផ្លាស់ប្តូរទិសដៅសញ្ញាវិសមភាពទៅជា $\\ge$ រួចទាញរកចន្លោះចម្លើយ"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 + 6x + 8 = 0",
+        ans: "x = -2, x = -4",
+        options: ["x = -2, x = -4", "x = 2, x = 4", "x = -1, x = -8", "x = 2, x = -4"],
+        mathSol: "(x + 2)(x + 4) = 0 \\implies x = -2 \\text{ ឬ } x = -4",
+        textSol: "កត្តាភាពត្រីធាស្វ័យគុណទីពីរដែលមានមេគុណវិជ្ជមានទាំងអស់"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "(x - 1)(x - 4) < 0",
-        ans: "1 < x < 4",
-        options: ["1 < x < 4", "x < 1 \\text{ ឬ } x > 4", "-4 < x < -1", "x < -4 \\text{ ឬ } x > -1"],
-        mathSol: "(x - 1)(x - 4) < 0 \\implies 1 < x < 4",
-        textSol: "កន្សោមជារៀងផលគុណកត្តារួចជាស្រេច មានឫស 1 និង 4 យកចន្លោះខាងក្នុង"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "2x^2 - 5x + 2 = 0",
+        ans: "x = 2, x = \\frac{1}{2}",
+        options: ["x = 2, x = \\frac{1}{2}", "x = -2, x = -\\frac{1}{2}", "x = 1, x = 2", "x = -2, x = \\frac{1}{2}"],
+        mathSol: "(2x - 1)(x - 2) = 0 \\implies x = \\frac{1}{2} \\text{ ឬ } x = 2",
+        textSol: "ប្រើវិធីបំបែកតួណ្ដាល ឬវិធីកត្តាភាពផលគុណមេគុណដំបូងនិងចុង"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x^2 - 8x + 16 \\le 0",
-        ans: "x = 4",
-        options: ["x = 4", "x \\le 4", "\\text{គ្មានចម្លើយ}", "-4 \\le x \\le 4"],
-        mathSol: "(x - 4)^2 \\le 0 \\implies x - 4 = 0 \\implies x = 4",
-        textSol: "ស្វ័យគុណពីរ $(x-4)^2 \\le 0$ មានចម្លើយតែមួយគត់គឺ $x = 4$"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x(x - 5) = 14",
+        ans: "x = 7, x = -2",
+        options: ["x = 7, x = -2", "x = -7, x = 2", "x = 14, x = 1", "x = 5, x = 14"],
+        mathSol: "x^2 - 5x - 14 = 0 \\implies (x - 7)(x + 2) = 0 \\implies x = 7 \\text{ ឬ } x = -2",
+        textSol: "ពង្រីកវង់ក្រចកនិងប្ដូរទីតាំងថេរមកអង្គខាងឆ្វេងដើម្បីឱ្យសមីការស្មើនឹងសូន្យ ($ax^2+bx+c=0$)"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "3x^2 - 12x \\ge 0",
-        ans: "x \\le 0 \\text{ ឬ } x \\ge 4",
-        options: ["x \\le 0 \\text{ ឬ } x \\ge 4", "0 \\le x \\le 4", "x \\le -4 \\text{ ឬ } x \\ge 0", "-4 \\le x \\le 0"],
-        mathSol: "3x(x - 4) \\ge 0 \\implies x \\le 0 \\text{ ឬ } x \\ge 4",
-        textSol: "ដាក់កត្តារួម $3x(x-4) \\ge 0$ មានឫស 0 និង 4 យកចន្លោះខាងក្រៅ"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 - 10x + 21 = 0",
+        ans: "x = 3, x = 7",
+        options: ["x = 3, x = 7", "x = -3, x = -7", "x = 1, x = 21", "x = -3, x = 7"],
+        mathSol: "(x - 3)(x - 7) = 0 \\implies x = 3 \\text{ ឬ } x = 7",
+        textSol: "រកកត្តាពីរដែលមានផលគុណ 21 និងផលបូក -10 គឺ -3 និង -7"
     },
     {
-        prefix: "ដោះស្រាយវិសមីការ",
-        eq: "x(x + 5) < 6",
-        ans: "-6 < x < 1",
-        options: ["-6 < x < 1", "x < -6 \\text{ ឬ } x > 1", "-1 < x < 6", "x < -1 \\text{ ឬ } x > 6"],
-        mathSol: "x^2 + 5x - 6 < 0 \\implies (x + 6)(x - 1) < 0 \\implies -6 < x < 1",
-        textSol: "ពង្រីកវង់ក្រចក រួចបោះ 6 មកឆ្វេង $x^2+5x-6 < 0$ បំបែកជា $(x+6)(x-1) < 0$"
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "3x^2 - 27 = 0",
+        ans: "x = 3, x = -3",
+        options: ["x = 3, x = -3", "x = 9, x = -9", "x = \\sqrt{3}, x = -\\sqrt{3}", "x = 3"],
+        mathSol: "3(x^2 - 9) = 0 \\implies x^2 = 9 \\implies x = \\pm 3",
+        textSol: "ដាក់កត្តារួម 3 ចេញក្រៅ រួចបំបែកបន្តជាផលសងស្វ័យគុណទីពីរ"
+    },
+    {
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "x^2 + 4x - 12 = 0",
+        ans: "x = 2, x = -6",
+        options: ["x = 2, x = -6", "x = -2, x = 6", "x = 3, x = -4", "x = -3, x = 4"],
+        mathSol: "(x - 2)(x + 6) = 0 \\implies x = 2 \\text{ ឬ } x = -6",
+        textSol: "ស្វែងរកកត្តាដែលមានផលគុណ -12 និងផលបូក 4 គឺ -2 និង 6"
+    },
+    {
+        prefix: "ដោះស្រាយសមីការ",
+        eq: "(x - 3)^2 - 16 = 0",
+        ans: "x = 7, x = -1",
+        options: ["x = 7, x = -1", "x = 3, x = 4", "x = 19, x = -13", "x = 7, x = 1"],
+        mathSol: "((x - 3) - 4)((x - 3) + 4) = 0 \\implies (x - 7)(x + 1) = 0 \\implies x = 7 \\text{ ឬ } x = -1",
+        textSol: "បំបែកតាមរូបមន្តផលសងស្វ័យគុណទីពីរ $A^2 - B^2 = (A-B)(A+B)$ ឱ្យបានត្រឹមត្រូវ"
     }
 ];
 
@@ -542,7 +542,7 @@
                 const globalIndex = startIndex + idx;
                 html += `
                     <div class="question-card" id="q-card-${globalIndex}">
-                        <div class="question-text">លំហាត់ទី ${globalIndex + 1} ៖ ${q.prefix} <br><br> $$ ${q.eq}  $$</div>
+                        <div class="question-text">លំហាត់ទី ${globalIndex + 1} ៖ ${q.prefix} <br><br> $$ ${q.eq} $$</div>
                         <ul class="options-list">
                 `;
                 q.shuffledOptions.forEach((opt) => {
@@ -673,7 +673,8 @@
                 solutionContent = `
                     <div class="solution-box">
                         <strong>សម្រាយបញ្ជាក់៖</strong><br>
-                        $$ ${q.sol} $$
+                        $$ ${q.mathSol} $$
+                        <br><span style="color: #7f8c8d; font-size: 14px;">💡 ${q.textSol}</span>
                     </div>
                 `;
             } else {
@@ -689,7 +690,7 @@
                     <strong>លំហាត់ទី ${index + 1} ៖</strong> ${q.prefix} $$ ${q.eq} $$
                     <div class="ans-row">
                         <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span><br><br>
-                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{}'} $</strong> <br><br>
+                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{គ្មាន}'} $</strong> <br><br>
                         
                         <button onclick="toggleAnswer(${index})" id="btn-reveal-${index}" style="background-color: #e67e22; padding: 6px 15px; font-size: 14px; margin-top: 5px;">👁️ មើលចម្លើយត្រឹមត្រូវ និងដំណោះស្រាយ</button>
                     </div>
@@ -704,11 +705,11 @@
 
         let grade = '';
         let msg = '';
-        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីប្រមាណវិធីលើប្រភាគចំនួន! 🌟'; }
+        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីការដោះស្រាយសមីការដឺក្រេទី២! 🌟'; }
         else if (score >= 80) { grade = 'B (ល្អណាស់)'; msg = 'ធ្វើបានល្អណាស់! បន្តការខិតខំបន្ថែមទៀត! 👍'; }
         else if (score >= 70) { grade = 'C (ល្អ)'; msg = 'លទ្ធផលល្អ! សាកល្បងហ្វឹកហាត់បន្ថែមដើម្បីទទួលបានលទ្ធផលកាន់តែប្រសើរ! 💪'; }
-        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកក្បួនបូកដកនិងគុណចែកប្រភាគឡើងវិញបន្តិចទៀត! 📚'; }
-        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលគណនាភាគបែងរួមនិងសញ្ញាអវិជ្ជមាន! 📖'; }
+        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកវិធីកត្តាភាព និងរូបមន្តដោះស្រាយសមីការដឺក្រេទី២ឡើងវិញ! 📚'; }
+        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលទាញរកឫសការ៉េ និងសញ្ញានៃកត្តា! 📖'; }
         else { grade = 'F (ធ្លាក់)'; msg = 'សូមកុំបោះបង់! ព្យាយាមមើលមេរៀន និងសម្រាយបញ្ជាក់ឡើងវិញណា៎! 🤝'; }
 
         document.getElementById('exam-screen').style.display = 'none';
