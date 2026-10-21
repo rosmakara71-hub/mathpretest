@@ -472,12 +472,10 @@
     let timerInterval;
     let studentName = "";
     
-    // ការកំណត់ Pagination (១ ទំព័រ មាន ៥ លំហាត់ => សរុប ៤ ទំព័រ)
     let currentPage = 1;
     const questionsPerPage = 5;
     const totalPages = Math.ceil(rawQuestions.length / questionsPerPage);
 
-    // Function ការពារ Refresh / Close tab ដោយអចេតនា
     function preventClose(e) {
         e.preventDefault();
         e.returnValue = ''; 
@@ -673,7 +671,8 @@
                 solutionContent = `
                     <div class="solution-box">
                         <strong>សម្រាយបញ្ជាក់៖</strong><br>
-                        $$ ${q.sol} $$
+                        $$ ${q.mathSol} $$
+                        <br><span style="color: #7f8c8d; font-size: 14px;">💡 ${q.textSol}</span>
                     </div>
                 `;
             } else {
@@ -689,7 +688,7 @@
                     <strong>លំហាត់ទី ${index + 1} ៖</strong> ${q.prefix} $$ ${q.eq} $$
                     <div class="ans-row">
                         <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span><br><br>
-                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{}'} $</strong> <br><br>
+                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{គ្មាន}'} $</strong> <br><br>
                         
                         <button onclick="toggleAnswer(${index})" id="btn-reveal-${index}" style="background-color: #e67e22; padding: 6px 15px; font-size: 14px; margin-top: 5px;">👁️ មើលចម្លើយត្រឹមត្រូវ និងដំណោះស្រាយ</button>
                     </div>
@@ -704,11 +703,11 @@
 
         let grade = '';
         let msg = '';
-        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីប្រមាណវិធីលើប្រភាគចំនួន! 🌟'; }
+        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីប្រមាណវិធីលើចំនួនគត់! 🌟'; }
         else if (score >= 80) { grade = 'B (ល្អណាស់)'; msg = 'ធ្វើបានល្អណាស់! បន្តការខិតខំបន្ថែមទៀត! 👍'; }
         else if (score >= 70) { grade = 'C (ល្អ)'; msg = 'លទ្ធផលល្អ! សាកល្បងហ្វឹកហាត់បន្ថែមដើម្បីទទួលបានលទ្ធផលកាន់តែប្រសើរ! 💪'; }
-        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកក្បួនបូកដកនិងគុណចែកប្រភាគឡើងវិញបន្តិចទៀត! 📚'; }
-        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលគណនាភាគបែងរួមនិងសញ្ញាអវិជ្ជមាន! 📖'; }
+        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកក្បួនបូកដកនិងគុណចែកចំនួនគត់ឡើងវិញបន្តិចទៀត! 📚'; }
+        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលគណនាសញ្ញាអវិជ្ជមាន! 📖'; }
         else { grade = 'F (ធ្លាក់)'; msg = 'សូមកុំបោះបង់! ព្យាយាមមើលមេរៀន និងសម្រាយបញ្ជាក់ឡើងវិញណា៎! 🤝'; }
 
         document.getElementById('exam-screen').style.display = 'none';
