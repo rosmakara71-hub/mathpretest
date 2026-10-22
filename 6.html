@@ -215,4 +215,518 @@
         .wrong-bg { border-left: 5px solid #e74c3c; }
         .unanswered-bg { border-left: 5px solid #f1c40f; }
         
-        .ans-row { margin-top: 15px; font-siz
+        .ans-row { margin-top: 15px; font-size: 16px; line-height: 1.6;}
+        .solution-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px dashed #7f8c8d;
+            border-radius: 8px;
+            color: #2c3e50;
+            overflow-x: auto;
+        }
+        .hidden-solution-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px dashed #ffeeba;
+            border-radius: 8px;
+            color: #856404;
+        }
+        .motivational-msg {
+            font-size: 18px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Watermark លោកគ្រូ -->
+<div class="watermark">រៀបចំដោយលោកគ្រូ រស់ មករា</div>
+
+<div class="container" id="start-screen">
+    <h2>ប្រឡងវាស់ស្ទង់សមត្ថភាពគណិតវិទ្យា</h2>
+    <div class="subtitle">ប្រធានបទ៖ បូកដកគុណចែកទៅលើពហុធា</div>
+    <p style="text-align: center; color: #7f8c8d; font-size: 1.1em;">
+        ចំនួនលំហាត់៖ ២០ គ្រាប់ (ចែកជា ៤ ទំព័រ) | ឆ្លើយត្រូវ៖ +៥ ពិន្ទុ | ឆ្លើយខុស៖ -២ ពិន្ទុ<br>
+        <small style="color: #e74c3c;">*សម្គាល់៖ ប្រសិនបើអ្នកមិនជ្រើសរើសចម្លើយ មិនត្រូវបានកាត់ពិន្ទុឡើយ (០ ពិន្ទុ)។</small>
+    </p>
+    <div class="input-group" style="margin-top: 30px;">
+        <input type="text" id="student-name" placeholder="សូមបញ្ចូលឈ្មោះរបស់អ្នកនៅទីនេះ..." required>
+    </div>
+    <div class="input-group">
+        <button onclick="startExam()">ចាប់ផ្តើមប្រឡង 🚀</button>
+    </div>
+</div>
+
+<div class="container" id="exam-screen">
+    <div class="header-info">
+        <div>បេក្ខជន៖ <span id="display-name" style="color: #e67e22;"></span></div>
+        <div>ម៉ោង៖ <span id="timer" style="color: #e74c3c;">00:00</span></div>
+    </div>
+    
+    <div id="questions-container">
+        <!-- សំណួរត្រូវបានចែកជាទំព័រៗទីនេះ -->
+    </div>
+
+    <!-- បូតុងបញ្ជាទំព័រ (Pagination Controls) -->
+    <div class="pagination-controls">
+        <button id="prev-btn" onclick="changePage(-1)" style="background-color: #7f8c8d;">❮ ទំព័រមុន</button>
+        <span class="page-indicator" id="page-indicator">ទំព័រទី 1 / 4</span>
+        <button id="next-btn" onclick="changePage(1)">ទំព័របន្ទាប់ ❯</button>
+        <button id="submit-btn" onclick="submitExam()" style="background-color: #2ecc71; display: none;">បញ្ចប់ការប្រឡង ✔️</button>
+    </div>
+</div>
+
+<div class="container" id="result-screen">
+    <div class="result-summary">
+        <h2>លទ្ធផលនៃការប្រឡង</h2>
+        <div style="font-size: 18px; color: #34495e;">ឈ្មោះ៖ <strong id="res-name"></strong> | រយៈពេល៖ <strong id="res-time"></strong></div>
+        
+        <!-- កន្លែងបង្ហាញកាលបរិច្ឆេទស្វ័យប្រវត្តិ -->
+        <div style="font-size: 15px; color: #7f8c8d; margin-top: 10px; font-style: italic;">
+            កាលបរិច្ឆេទ៖ <strong id="res-datetime"></strong>
+        </div>
+
+        <div class="score-display">ពិន្ទុរបស់អ្នក៖ <span id="res-score"></span> / 100</div>
+        <div class="grade-display">និទ្ទេស៖ <span id="res-grade"></span></div>
+        <div class="motivational-msg" id="res-msg"></div>
+    </div>
+    <h3 style="border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">លម្អិតលំហាត់ និងដំណោះស្រាយ</h3>
+    <div id="review-container">
+        <!-- ដំណោះស្រាយនឹងត្រូវបានបង្ហាញទីនេះ -->
+    </div>
+    <div style="text-align: center; margin-top: 40px;">
+        <button onclick="location.reload()">ត្រឡប់ទៅដើមវិញ 🔄</button>
+    </div>
+</div>
+
+<script>
+    const rawQuestions = [
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(3x^2 + 5x - 2) + (2x^2 - 3x + 4)",
+        ans: "5x^2 + 2x + 2",
+        options: ["5x^2 + 2x + 2", "5x^2 + 8x + 2", "x^2 + 2x + 2", "5x^2 + 2x - 6"],
+        mathSol: "(3x^2 + 2x^2) + (5x - 3x) + (-2 + 4) = 5x^2 + 2x + 2",
+        textSol: "បូកពហុធាដោយប្រមូលផ្ដុំតួដែលមានដឺក្រេដូចគ្នា (Like terms) មកបញ្ចូលគ្នា"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(7x^2 - 4x + 5) - (3x^2 - 2x + 1)",
+        ans: "4x^2 - 2x + 4",
+        options: ["4x^2 - 2x + 4", "4x^2 - 6x + 6", "10x^2 - 6x + 6", "4x^2 - 2x + 6"],
+        mathSol: "(7 - 3)x^2 + (-4 - (-2))x + (5 - 1) = 4x^2 - 2x + 4",
+        textSol: "ដកពហុធាដោយប្ដូរសញ្ញាតួខាងក្នុងរង្វង់ក្រចកទីពីរ រួចប្រមូលតួដូចគ្នា"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "2x(3x^2 - 4x + 1)",
+        ans: "6x^3 - 8x^2 + 2x",
+        options: ["6x^3 - 8x^2 + 2x", "6x^3 - 4x + 1", "5x^3 - 6x^2 + 2x", "6x^3 - 8x^2 + 1"],
+        mathSol: "2x \\cdot 3x^2 + 2x \\cdot (-4x) + 2x \\cdot 1 = 6x^3 - 8x^2 + 2x",
+        textSol: "គុណឯកធានឹងពហុធា ដោយយកឯកធាទៅគុណនឹងរាល់តួទាំងអស់ក្នុងពហុធា"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x + 2)(x + 3)",
+        ans: "x^2 + 5x + 6",
+        options: ["x^2 + 5x + 6", "x^2 + 6x + 5", "x^2 + 5x + 5", "x^2 + 6x + 6"],
+        mathSol: "x(x + 3) + 2(x + 3) = x^2 + 3x + 2x + 6 = x^2 + 5x + 6",
+        textSol: "គុណពហុធានឹងពហុធាដោយយកតួទីមួយគុណនឹងតួទាំងអស់ រួចយកតួទីពីរគុណនឹងតួទាំងអស់"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(2x - 3)(x + 4)",
+        ans: "2x^2 + 5x - 12",
+        options: ["2x^2 + 5x - 12", "2x^2 + 8x - 12", "2x^2 - 5x - 12", "2x^2 + 11x - 12"],
+        mathSol: "2x(x + 4) - 3(x + 4) = 2x^2 + 8x - 3x - 12 = 2x^2 + 5x - 12",
+        textSol: "ពង្រីកកន្សោមផលគុណទ្វេធា រួចបូកបញ្ចូលតួអថេរដឺក្រេទីមួយដូចគ្នា"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x + 4)^2",
+        ans: "x^2 + 8x + 16",
+        options: ["x^2 + 8x + 16", "x^2 + 16", "x^2 + 4x + 16", "x^2 + 8x + 8"],
+        mathSol: "x^2 + 2(x)(4) + 4^2 = x^2 + 8x + 16",
+        textSol: "អភិវឌ្ឍតាមរាងស្វ័យគុណកន្សោមបូក៖ $(a+b)^2 = a^2 + 2ab + b^2$"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(3x - 2)^2",
+        ans: "9x^2 - 12x + 4",
+        options: ["9x^2 - 12x + 4", "9x^2 - 6x + 4", "9x^2 + 12x + 4", "9x^2 - 4"],
+        mathSol: "(3x)^2 - 2(3x)(2) + 2^2 = 9x^2 - 12x + 4",
+        textSol: "អភិវឌ្ឍតាមរាងស្វ័យគុណកន្សោមដក៖ $(a-b)^2 = a^2 - 2ab + b^2$"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x - 5)(x + 5)",
+        ans: "x^2 - 25",
+        options: ["x^2 - 25", "x^2 + 25", "x^2 - 10x - 25", "x^2 - 5x - 25"],
+        mathSol: "x^2 - 5^2 = x^2 - 25",
+        textSol: "ផលគុណផលបូកនិងផលដកតួដូចគ្នា៖ $(a-b)(a+b) = a^2 - b^2$"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "\\frac{6x^3 - 9x^2 + 3x}{3x}",
+        ans: "2x^2 - 3x + 1",
+        options: ["2x^2 - 3x + 1", "2x^2 - 3x", "2x^3 - 3x^2 + x", "2x^2 + 3x - 1"],
+        mathSol: "\\frac{6x^3}{3x} - \\frac{9x^2}{3x} + \\frac{3x}{3x} = 2x^2 - 3x + 1",
+        textSol: "ចែកពហុធានឹងឯកធា ដោយយកគ្រប់តួក្នុងភាគយកចែកដាច់ពីគ្នានឹងឯកធាភាគបែង"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x^2 + 7x + 12) \\div (x + 3)",
+        ans: "x + 4",
+        options: ["x + 4", "x + 3", "x + 7", "x - 4"],
+        mathSol: "\\frac{(x + 3)(x + 4)}{x + 3} = x + 4",
+        textSol: "កត្តាភាពពហុធាភាគយកជាផលគុណកត្តា $(x+3)(x+4)$ រួចសម្រួលតួដូចគ្នាចោល"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "5(x^2 - 2x + 3) - 2(2x^2 - 5x + 1)",
+        ans: "x^2 + 13",
+        options: ["x^2 + 13", "x^2 - 20x + 13", "9x^2 - 20x + 13", "x^2 + 5x + 13"],
+        mathSol: "5x^2 - 10x + 15 - 4x^2 + 10x - 2 = (5-4)x^2 + (-10+10)x + (15-2) = x^2 + 13",
+        textSol: "ពង្រីកមេគុណក្រៅរង្វង់ក្រចកចូលក្នុង រួចប្រមូលផ្ដុំតួអថេរដូចគ្នា"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x - 2)(x^2 + 2x + 4)",
+        ans: "x^3 - 8",
+        options: ["x^3 - 8", "x^3 + 8", "x^3 - 2x^2 - 8", "x^3 - 4x - 8"],
+        mathSol: "x(x^2 + 2x + 4) - 2(x^2 + 2x + 4) = x^3 + 2x^2 + 4x - 2x^2 - 4x - 8 = x^3 - 8",
+        textSol: "គុណពង្រីកតួទ្វេធានឹងត្រីធា សម្រួលតួផ្ទុយគ្នាទទួលបានរូបមន្តផលសងស្វ័យគុណទីបី ($a^3 - b^3$)"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x + 3)(x^2 - 3x + 9)",
+        ans: "x^3 + 27",
+        options: ["x^3 + 27", "x^3 - 27", "x^3 + 9x + 27", "x^3 + 6x + 27"],
+        mathSol: "x(x^2 - 3x + 9) + 3(x^2 - 3x + 9) = x^3 - 3x^2 + 9x + 3x^2 - 9x + 27 = x^3 + 27",
+        textSol: "ផលបូកស្វ័យគុណទីបី៖ $(a+b)(a^2-ab+b^2) = a^3 + b^3$"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(3x^2 - 5x) + (2x^2 + 4x - 7) - (x^2 - x + 2)",
+        ans: "4x^2 - 9",
+        options: ["4x^2 - 9", "6x^2 - 2x - 9", "4x^2 - 2x - 5", "4x^2 - 5"],
+        mathSol: "3x^2 - 5x + 2x^2 + 4x - 7 - x^2 + x - 2 = (3+2-1)x^2 + (-5+4+1)x + (-7-2) = 4x^2 - 9",
+        textSol: "បូកដកពហុធាច្រើនកន្សោមដោយយកសញ្ញាចូលក្នុង រួចប្រមូលតួដឺក្រេដូចគ្នា"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(2x - 1)(3x + 2)(x - 1)",
+        ans: "6x^3 - 5x^2 - 3x + 2",
+        options: ["6x^3 - 5x^2 - 3x + 2", "6x^3 + x^2 - 6x + 2", "6x^3 - 7x^2 + 2", "6x^3 - 5x^2 - 4x + 2"],
+        mathSol: "(6x^2 + 4x - 3x - 2)(x - 1) = (6x^2 + x - 2)(x - 1) = 6x^3 - 6x^2 + x^2 - x - 2x + 2 = 6x^3 - 5x^2 - 3x + 2",
+        textSol: "គុណពហុធាពីរដំបូងជាមុន រួចយកលទ្ធផលមកគុណនឹងពហុធាទីបីបន្ត"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "\\frac{x^2 - 9}{x - 3}",
+        ans: "x + 3",
+        options: ["x + 3", "x - 3", "x + 9", "x - 9"],
+        mathSol: "\\frac{(x - 3)(x + 3)}{x - 3} = x + 3",
+        textSol: "បំបែកភាគយកតាមរូបមន្ត $a^2 - b^2 = (a-b)(a+b)$ រួចបង្រួមសម្រួលភាគបែង"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x^2 - 4x + 4) \\div (x - 2)",
+        ans: "x - 2",
+        options: ["x - 2", "x + 2", "x - 4", "x + 4"],
+        mathSol: "\\frac{(x - 2)^2}{x - 2} = x - 2",
+        textSol: "កត្តាភាពភាគយកជាស្វ័យគុណកន្សោមដក $(x-2)^2$ រួចចែកសម្រួលនឹង $(x-2)$"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "x^2(x - 1) - x(x^2 + 2x) + 3(x^2 - x)",
+        ans: "-3x",
+        options: ["-3x", "-2x^2 - 3x", "x^3 - 3x", "3x"],
+        mathSol: "(x^3 - x^2) - (x^3 + 2x^2) + (3x^2 - 3x) = (1 - 1)x^3 + (-1 - 2 + 3)x^2 - 3x = -3x",
+        textSol: "ពង្រីកគ្រប់តួ រួចសម្រួលតួអថេរដឺក្រេទីបី និងទីពីរដែលបូកដកគ្នាអស់សល់តែតួដឺក្រេទីមួយ"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(2x + 3)^3",
+        ans: "8x^3 + 36x^2 + 54x + 27",
+        options: ["8x^3 + 36x^2 + 54x + 27", "8x^3 + 27", "8x^3 + 18x^2 + 27x + 27", "8x^3 + 36x^2 + 27"],
+        mathSol: "(2x)^3 + 3(2x)^2(3) + 3(2x)(3)^2 + 3^3 = 8x^3 + 36x^2 + 54x + 27",
+        textSol: "អភិវឌ្ឍតាមរូបមន្តស្វ័យគុណទីបីនៃទ្វេធា៖ $(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$"
+    },
+    {
+        prefix: "គណនាកន្សោម",
+        eq: "(x^3 + 2x^2 - 5x - 6) \\div (x + 1)",
+        ans: "x^2 + x - 6",
+        options: ["x^2 + x - 6", "x^2 + 3x - 6", "x^2 - x - 6", "x^2 + x + 6"],
+        mathSol: "\\text{ប្រើវិធីចែកអុយគ្លីដ (Long division) នឹង } (x+1) \\text{ ទទួលបាន } x^2 + x - 6",
+        textSol: "ធ្វើការចែកពហុធានឹងពហុធាតាមវិធីតាំងដក (Polynomial long division)"
+    }
+];
+
+    let examQuestions = [];
+    let startTime;
+    let timerInterval;
+    let studentName = "";
+    
+    // ការកំណត់ Pagination (១ ទំព័រ មាន ៥ លំហាត់ => សរុប ៤ ទំព័រ)
+    let currentPage = 1;
+    const questionsPerPage = 5;
+    const totalPages = Math.ceil(rawQuestions.length / questionsPerPage);
+
+    // Function ការពារ Refresh / Close tab ដោយអចេតនា
+    function preventClose(e) {
+        e.preventDefault();
+        e.returnValue = ''; 
+    }
+
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    function startExam() {
+        const nameInput = document.getElementById('student-name').value.trim();
+        if(nameInput === "") {
+            alert("សូមបញ្ចូលឈ្មោះរបស់អ្នកជាមុនសិន!");
+            return;
+        }
+        studentName = nameInput;
+        document.getElementById('display-name').innerText = studentName;
+        
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('exam-screen').style.display = 'block';
+        
+        examQuestions = shuffle([...rawQuestions]).map(q => {
+            return {
+                ...q,
+                shuffledOptions: shuffle([...q.options])
+            };
+        });
+
+        renderQuestions();
+        updatePaginationUI();
+        
+        startTime = Date.now();
+        timerInterval = setInterval(updateTimer, 1000);
+
+        window.addEventListener('beforeunload', preventClose);
+    }
+
+    function updateTimer() {
+        const diff = Math.floor((Date.now() - startTime) / 1000);
+        const m = Math.floor(diff / 60).toString().padStart(2, '0');
+        const s = (diff % 60).toString().padStart(2, '0');
+        document.getElementById('timer').innerText = `${m}:${s}`;
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        let html = '';
+        
+        for (let page = 1; page <= totalPages; page++) {
+            const startIndex = (page - 1) * questionsPerPage;
+            const pageQuestions = examQuestions.slice(startIndex, startIndex + questionsPerPage);
+            
+            html += `<div class="page-group ${page === 1 ? 'active' : ''}" id="page-${page}">`;
+            
+            pageQuestions.forEach((q, idx) => {
+                const globalIndex = startIndex + idx;
+                html += `
+                    <div class="question-card" id="q-card-${globalIndex}">
+                        <div class="question-text">លំហាត់ទី ${globalIndex + 1} ៖ ${q.prefix} <br><br> $$ ${q.eq} = ? $$</div>
+                        <ul class="options-list">
+                `;
+                q.shuffledOptions.forEach((opt) => {
+                    html += `
+                        <li>
+                            <label>
+                                <input type="radio" name="q${globalIndex}" value="${opt.replace(/"/g, '&quot;')}">
+                                $ ${opt} $
+                            </label>
+                        </li>
+                    `;
+                });
+                html += `</ul></div>`;
+            });
+            
+            html += `</div>`;
+        }
+        
+        container.innerHTML = html;
+        MathJax.typesetPromise();
+    }
+
+    function updatePaginationUI() {
+        document.querySelectorAll('.page-group').forEach((group, idx) => {
+            if (idx + 1 === currentPage) {
+                group.classList.add('active');
+            } else {
+                group.classList.remove('active');
+            }
+        });
+
+        document.getElementById('page-indicator').innerText = `ទំព័រទី ${currentPage} / ${totalPages}`;
+        document.getElementById('prev-btn').style.display = currentPage === 1 ? 'none' : 'inline-block';
+        
+        if (currentPage === totalPages) {
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('submit-btn').style.display = 'inline-block';
+        } else {
+            document.getElementById('next-btn').style.display = 'inline-block';
+            document.getElementById('submit-btn').style.display = 'none';
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    function changePage(direction) {
+        currentPage += direction;
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        updatePaginationUI();
+    }
+
+    function toggleAnswer(index) {
+        const box = document.getElementById(`reveal-box-${index}`);
+        const btn = document.getElementById(`btn-reveal-${index}`);
+        if (box.style.display === 'none') {
+            box.style.display = 'block';
+            btn.innerText = '🔒 លាក់ចម្លើយត្រឹមត្រូវវិញ';
+            btn.style.backgroundColor = '#7f8c8d';
+            MathJax.typesetPromise([box]);
+        } else {
+            box.style.display = 'none';
+            btn.innerText = '👁️ មើលចម្លើយត្រឹមត្រូវ និងដំណោះស្រាយ';
+            btn.style.backgroundColor = '#e67e22';
+        }
+    }
+
+    function submitExam() {
+        let unansweredCount = 0;
+        for (let i = 0; i < examQuestions.length; i++) {
+            const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+            if (!selectedOption) {
+                unansweredCount++;
+            }
+        }
+
+        if (unansweredCount > 0) {
+            let confirmUnanswered = confirm(`⚠️ អ្នកនៅសល់លំហាត់ចំនួន ${unansweredCount} ទៀតដែលមិនទាន់បានជ្រើសរើសចម្លើយ!\nតើអ្នកពិតជាចង់បញ្ចប់ការប្រឡងមែនទេ?`);
+            if (!confirmUnanswered) return; 
+        } else {
+            if(!confirm("តើអ្នកពិតជាចង់បញ្ចប់ការប្រឡង និងមើលលទ្ធផលមែនទេ?")) return;
+        }
+
+        clearInterval(timerInterval);
+        window.removeEventListener('beforeunload', preventClose);
+
+        const now = new Date();
+        const days = ["អាទិត្យ", "ច័ន្ទ", "អង្គារ", "ពុធ", "ព្រហស្បតិ៍", "សុក្រ", "សៅរ៍"];
+        const months = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+        
+        let dayName = days[now.getDay()];
+        let dateNum = now.getDate();
+        let monthName = months[now.getMonth()];
+        let year = now.getFullYear();
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+        let seconds = now.getSeconds().toString().padStart(2, '0');
+        
+        let formattedDateTime = `ថ្ងៃ ${dayName} ទី ${dateNum} ខែ ${monthName} ឆ្នាំ ${year} ម៉ោង ${hours} នាទី ${minutes} វិនាទី ${seconds}`;
+
+        let score = 0;
+        let reviewHtml = '';
+
+        examQuestions.forEach((q, index) => {
+            const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+            const userAns = selectedOption ? selectedOption.value : null;
+            
+            let statusClass = 'unanswered-bg';
+            let statusText = 'មិនបានឆ្លើយ ⚠️ (០ ពិន្ទុ)';
+            let statusColor = '#f39c12';
+            let solutionContent = '';
+
+            if (userAns === q.ans) {
+                score += 5;
+                statusClass = 'correct-bg';
+                statusText = 'ត្រឹមត្រូវ ✅ (+៥ ពិន្ទុ)';
+                statusColor = '#27ae60';
+            } else if (userAns !== null) {
+                score -= 2; 
+                statusClass = 'wrong-bg';
+                statusText = 'មិនទាន់ត្រឹមត្រូវ ❌ (-២ ពិន្ទុ)';
+                statusColor = '#c0392b';
+            }
+
+            if (score < 0) score = 0;
+
+            if (userAns !== null) {
+                solutionContent = `
+                    <div class="solution-box">
+                        <strong>សម្រាយបញ្ជាក់៖</strong><br>
+                        $$ ${q.mathSol} $$
+                        <br><span style="color: #7f8c8d; font-size: 14px;">💡 ${q.textSol}</span>
+                    </div>
+                `;
+            } else {
+                solutionContent = `
+                    <div class="hidden-solution-box">
+                        <strong>សម្គាល់៖</strong> ដោយសារអ្នកមិនបានជ្រើសរើសចម្លើយ ដូច្នេះប្រព័ន្ធមិនបង្ហាញដំណោះស្រាយសម្រាប់លំហាត់នេះទេ។
+                    </div>
+                `;
+            }
+
+            reviewHtml += `
+                <div class="review-card ${statusClass}">
+                    <strong>លំហាត់ទី ${index + 1} ៖</strong> ${q.prefix} $$ ${q.eq} $$
+                    <div class="ans-row">
+                        <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span><br><br>
+                        ជម្រើសរបស់អ្នក៖ <strong>$ ${userAns !== null ? userAns : '\\text{គ្មាន}'} $</strong> <br><br>
+                        
+                        <button onclick="toggleAnswer(${index})" id="btn-reveal-${index}" style="background-color: #e67e22; padding: 6px 15px; font-size: 14px; margin-top: 5px;">👁️ មើលចម្លើយត្រឹមត្រូវ និងដំណោះស្រាយ</button>
+                    </div>
+
+                    <div id="reveal-box-${index}" style="display: none; margin-top: 15px;">
+                        <div style="font-size: 16px; margin-bottom: 10px;">ចម្លើយត្រឹមត្រូវ៖ <strong>$ ${q.ans} $</strong></div>
+                        ${solutionContent}
+                    </div>
+                </div>
+            `;
+        });
+
+        let grade = '';
+        let msg = '';
+        if (score >= 90) { grade = 'A (ល្អប្រសើរ)'; msg = 'អស្ចារ្យណាស់! អ្នកពិតជាយល់ច្បាស់ពីប្រមាណវិធីលើពហុធា! 🌟'; }
+        else if (score >= 80) { grade = 'B (ល្អណាស់)'; msg = 'ធ្វើបានល្អណាស់! បន្តការខិតខំបន្ថែមទៀត! 👍'; }
+        else if (score >= 70) { grade = 'C (ល្អ)'; msg = 'លទ្ធផលល្អ! សាកល្បងហ្វឹកហាត់បន្ថែមដើម្បីទទួលបានលទ្ធផលកាន់តែប្រសើរ! 💪'; }
+        else if (score >= 60) { grade = 'D (បង្គួរ)'; msg = 'អ្នកយល់បានមួយកម្រិតហើយ ត្រូវការរំលឹកក្បួនប្រមាណវិធីលើពហុធាឡើងវិញបន្តិចទៀត! 📚'; }
+        else if (score >= 50) { grade = 'E (មធ្យម)'; msg = 'លទ្ធផលមធ្យម! សូមប្រុងប្រយ័ត្នពេលគណនាដកសញ្ញាក្នុងវង់ក្រចក និងដឺក្រេអថេរ! 📖'; }
+        else { grade = 'F (ធ្លាក់)'; msg = 'សូមកុំបោះបង់! ព្យាយាមមើលមេរៀន និងសម្រាយបញ្ជាក់ឡើងវិញណា៎! 🤝'; }
+
+        document.getElementById('exam-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+
+        document.getElementById('res-name').innerText = studentName;
+        document.getElementById('res-time').innerText = document.getElementById('timer').innerText;
+        document.getElementById('res-datetime').innerText = formattedDateTime;
+        document.getElementById('res-score').innerText = score;
+        document.getElementById('res-grade').innerText = grade;
+        document.getElementById('res-msg').innerText = msg;
+
+        document.getElementById('review-container').innerHTML = reviewHtml;
+        MathJax.typesetPromise();
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
